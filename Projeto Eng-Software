@@ -1,0 +1,63 @@
+from database import Database
+
+def adicionar_produto(nome, descricao, preco):
+    if not nome or not descricao or preco <= 0:
+        return False
+    
+    produto = {
+        'nome': nome,
+        'descricao': descricao,
+        'preco': preco
+    }
+    db.adicionar_produto(produto)
+    
+    return True
+
+def atualizar_produto(id_produto, novo_nome, nova_descricao, novo_preco):
+    if not novo_nome or not nova_descricao or novo_preco <= 0:
+        return False
+    
+    produto = db.obter_produto(id_produto)
+    if not produto:
+        return False
+    
+    produto['nome'] = novo_nome
+    produto['descricao'] = nova_descricao
+    produto['preco'] = novo_preco
+    
+    db.atualizar_produto(produto)
+    
+    return True
+
+def deletar_produto(id_produto):
+    produto = db.obter_produto(id_produto)
+    if not produto:
+        return False
+    
+    db.deletar_produto(id_produto)
+    
+    return True
+
+def listar_todos_produtos():
+    return db.listar_produtos()
+
+def listar_produto(id_produto):
+    return db.obter_produto(id_produto)
+
+# Inicialização do banco de dados
+db = Database()
+
+if __name__ == '__main__':
+    # Exemplo de uso das funções
+    adicionar_produto('Produto 1', 'Descrição do Produto 1', 10.99)
+    adicionar_produto('Produto 2', 'Descrição do Produto 2', 19.99)
+    
+    print(listar_todos_produtos())
+    
+    atualizar_produto(1, 'Produto 1 Atualizado', 'Nova descrição do Produto 1', 12.99)
+    
+    print(listar_todos_produtos())
+    
+    deletar_produto(2)
+    
+    print(listar_todos_produtos())
